@@ -6,8 +6,7 @@ import { dbConnection } from "./Database/Connect";
 import UsersRoute from "./Routes/UsersRoute";
 import ProductsRoute from "./Routes/ProductsRoute";
 import orderRoute from "./Routes/orderRoute";
-import { upload } from "./Utility/ProductImageUpload";
-
+import Auth from "./Routes/AuthRoute";
 
 
 
@@ -17,7 +16,7 @@ const app =express();
 //access controller
 app.use(cors());
 app.use(express.json());
-
+app.use(express.static('Images'));
 //connect to database
 dbConnection();
 
@@ -28,16 +27,12 @@ app.use("/api",ProductsRoute);
 
 app.use("/api",orderRoute);
 
- 
-app.post('/',upload.array('Users',4),(req,res)=>{
-console.log(req.file);
+app.use("/auth",Auth);
 
-  res.json(req.files)
-})
+
 
 const port=process.env.PORT||4000;
 
 app.listen(port,()=>{
-
     console.log(`Server Listening at port ${port}`);
 });

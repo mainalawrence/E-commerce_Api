@@ -2,5 +2,5 @@
 
 
  export const login:RequestHandler=async (req:Request,res:Response) => {
-     
+  
  }

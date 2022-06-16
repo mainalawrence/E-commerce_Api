@@ -5,9 +5,9 @@ const router=Express.Router();
 
 router.get('/products',getProducts);
 
-router.put('/products',UpdateProducts);
+router.put('/products',upload.array('Product',4),UpdateProducts);
 
-router.post('/products',upload.single('product'),setProducts);
+router.post('/products',upload.array('Product',4),setProducts);
 
 router.post('/products',filterProducts);
 
