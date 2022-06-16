@@ -10,6 +10,7 @@
  }
   export const setProducts:RequestHandler=async (req:Request,res:Response)=>{
      try {
+         res.json(req);
          
      } catch (error) {
          return res.json({message:"Internal Error",error})

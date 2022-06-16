@@ -1,7 +1,9 @@
  import  {Request ,Response , NextFunction} from "express";
  import jwt, { JsonWebTokenError } from 'jsonwebtoken';
  import dotenv from 'dotenv';
+ 
  dotenv.config();
+
 const verifyToken =() => {
     return (req:Request,res:Response, next:NextFunction) => {
       let token = req.headers.authorization;

@@ -20,6 +20,7 @@ const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getProducts = getProducts;
 const setProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        res.json(req);
     }
     catch (error) {
         return res.json({ message: "Internal Error", error });
