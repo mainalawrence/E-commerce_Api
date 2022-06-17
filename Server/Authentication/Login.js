@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = void 0;
+exports.LoginWithGoogle = exports.LoginWithFacebook = exports.login = void 0;
 const mssql_1 = __importDefault(require("mssql"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -47,3 +47,9 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.login = login;
+const LoginWithFacebook = () => {
+};
+exports.LoginWithFacebook = LoginWithFacebook;
+const LoginWithGoogle = () => {
+};
+exports.LoginWithGoogle = LoginWithGoogle;

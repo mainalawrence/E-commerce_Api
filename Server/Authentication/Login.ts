@@ -33,3 +33,12 @@ import sqlConfig from "../Database/configaration"
         res.json({message:"Internal Error",error})
     }
  }
+
+ export const LoginWithFacebook=()=>{
+     
+
+ }
+export const LoginWithGoogle=()=>{
+
+  }
+
