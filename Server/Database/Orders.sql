@@ -1,13 +1,16 @@
 
 ----PRODUCTS SECTION BEGINS HERE
 
-CREATE TABLE Orders
-(
-    id VARCHAR(100) PRIMARY KEY ,
-    userid VARCHAR(100) ,
-    TotalCost money NOT NULL,
-    orders nvarchar(max),
-) 
+-- CREATE TABLE Orders
+-- (
+--     id VARCHAR(100) PRIMARY KEY ,
+--     userid VARCHAR(100) ,
+--     TotalCost money NOT NULL,
+--     orders nvarchar(max),
+--     date DATETIME
+
+-- ) 
+
 
 --INSERT PRODUCT STORED PROCEDURE
 go
@@ -20,7 +23,7 @@ CREATE OR ALTER PROC createOrders(
 AS
 BEGIN
     INSERT INTO Orders
-    VALUES(@id, @userid, @TotalCost, @orders)
+    VALUES(@id, @userid, @TotalCost, @orders, CURRENT_TIMESTAMP)
 --VALUES('qwerrty12334', 'JavaScript', 'It is a Javascript book', 234)
 END
 go
@@ -69,4 +72,16 @@ BEGIN
 END
 go
 
+
+go
+--GET ALL PRODUCTS STORED PROCEDURE
+CREATE or alter PROC SearchOrder(@name VARCHAR(100))
+AS
+BEGIN
+    SELECT *
+    FROM Products
+    WHERE name LIKE '@name%'
+END
+
+go
 exec getOrders

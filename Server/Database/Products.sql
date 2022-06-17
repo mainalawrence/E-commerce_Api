@@ -80,4 +80,27 @@ BEGIN
 END
 go
 
+
+go
+
+--GET ALL PRODUCTS STORED PROCEDURE
+CREATE or alter PROC filterProducts
+AS
+BEGIN
+    SELECT *
+    FROM Products
+END
+
+go
+
+go
+--GET ALL PRODUCTS STORED PROCEDURE
+CREATE or alter PROC SearchProducts(@name VARCHAR(100))
+AS
+BEGIN
+    SELECT *
+    FROM Products WHERE name LIKE '@name%'
+END
+
+go
 exec getProducts
