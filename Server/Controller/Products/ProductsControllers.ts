@@ -17,8 +17,8 @@ import sql, { MAX } from 'mssql'
         }
         res.json(result.recordsets);
 
-     } catch (error ){
-           return res.json({message:"Internal Error",error})
+     } catch (error:any) {
+         return res.json({message:"Internal Error",error:error.message})
      }
 
  }
@@ -91,8 +91,8 @@ import sql, { MAX } from 'mssql'
         else{
             res.json({message:"Failed",result})
         }
-     } catch (error) {
-        return res.json({message:"Internal Error",error} ) 
+     }catch (error:any) {
+         return res.json({message:"Internal Error",error:error.message})
      }
 
  }
@@ -108,17 +108,16 @@ import sql, { MAX } from 'mssql'
         else{
             res.json({message:"Failed",result})
         }
-     } catch (error ){
-          return res.json({message:"Internal Error",error})
-         
+     } catch (error:any) {
+         return res.json({message:"Internal Error",error:error.message})
      }
 
  }
   export const filterProducts:RequestHandler=async (req:Request,res:Response)=>{
      try {
          
-     } catch (error ){
-          return res.json({message:"Internal Error",error})
+     } catch (error:any) {
+         return res.json({message:"Internal Error",error:error.message})
      }
 
  }
@@ -135,8 +134,8 @@ import sql, { MAX } from 'mssql'
             res.json({message:"Failed",result})
         }
         
-     } catch (error) {
-          return res.json({message:"Internal Error",error})
+     } catch (error:any) {
+         return res.json({message:"Internal Error",error:error.message})
      }
 
  }

@@ -25,7 +25,7 @@ const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.json(result.recordsets);
     }
     catch (error) {
-        return res.json({ message: "Internal Error", error });
+        return res.json({ message: "Internal Error", error: error.message });
     }
 });
 exports.getUsers = getUsers;
@@ -46,7 +46,7 @@ const setUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.json(result);
     }
     catch (error) {
-        return res.json({ message: "Internal Error", error });
+        return res.json({ message: "Internal Error", error: error.message });
     }
 });
 exports.setUser = setUser;
@@ -67,7 +67,7 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         return res.json(result);
     }
     catch (error) {
-        return res.json({ message: "Internal Error", error });
+        return res.json({ message: "Internal Error", error: error.message });
     }
 });
 exports.updateUser = updateUser;
@@ -85,7 +85,7 @@ const RemoveUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
     }
     catch (error) {
-        return res.json({ message: "Internal Error", error });
+        return res.json({ message: "Internal Error", error: error.message });
     }
 });
 exports.RemoveUser = RemoveUser;

@@ -10,8 +10,8 @@ import { uid } from 'uid';
         const result=await pool.request()
         .execute('getUsers');
         return res.json(result.recordsets);
-     } catch (error) {
-         return res.json({message:"Internal Error",error})
+     } catch (error:any) {
+         return res.json({message:"Internal Error",error:error.message})
      }
 
  }
@@ -30,10 +30,9 @@ import { uid } from 'uid';
         .input('image', sql.VarChar,image)
         .execute('createUser');
         res.json(result);
-    } catch (error) {
-          return res.json({message:"Internal Error",error})
-
-    }  
+    } catch (error:any) {
+         return res.json({message:"Internal Error",error:error.message})
+     }
 
  }
  export const updateUser:RequestHandler =async (req:Request,res:Response)=>{
@@ -53,9 +52,9 @@ import { uid } from 'uid';
 
         return res.json(result)
         
-    } catch (error) {
-          return res.json({message:"Internal Error",error})  
-    } 
+    } catch (error:any) {
+         return res.json({message:"Internal Error",error:error.message})
+     }
 
  }
 export const RemoveUser:RequestHandler =async (req:Request,res:Response)=>{
@@ -70,8 +69,8 @@ export const RemoveUser:RequestHandler =async (req:Request,res:Response)=>{
         else{
             res.json({message:'Invalid User'})
         }
-     } catch (error) {
-           return res.json({message:"Internal Error",error})
+     } catch (error:any) {
+         return res.json({message:"Internal Error",error:error.message})
      }
 
  }

@@ -27,7 +27,7 @@ const getOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.json(result.recordsets);
     }
     catch (error) {
-        return res.json({ message: "Internal Error", error });
+        return res.json({ message: "Internal Error", error: error.message });
     }
 });
 exports.getOrders = getOrders;
@@ -47,7 +47,7 @@ const setOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.json(result.recordsets);
     }
     catch (error) {
-        return res.json({ message: "Internal Error", error });
+        return res.json({ message: "Internal Error", error: error.message });
     }
 });
 exports.setOrders = setOrders;
@@ -67,7 +67,7 @@ const UpdateOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.json(result.recordsets);
     }
     catch (error) {
-        return res.json({ message: "Internal Error", error });
+        return res.json({ message: "Internal Error", error: error.message });
     }
 });
 exports.UpdateOrders = UpdateOrders;
@@ -83,7 +83,7 @@ const deleteOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.json(result.recordsets);
     }
     catch (error) {
-        return res.json({ message: "Internal Error", error });
+        return res.json({ message: "Internal Error", error: error.message });
     }
 });
 exports.deleteOrders = deleteOrders;
@@ -91,7 +91,7 @@ const filterOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     try {
     }
     catch (error) {
-        return res.json({ message: "Internal Error", error });
+        return res.json({ message: "Internal Error", error: error.message });
     }
 });
 exports.filterOrders = filterOrders;
@@ -109,7 +109,7 @@ const searchOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         }
     }
     catch (error) {
-        return res.json({ message: "Internal Error", error });
+        return res.json({ message: "Internal Error", error: error.message });
     }
 });
 exports.searchOrders = searchOrders;

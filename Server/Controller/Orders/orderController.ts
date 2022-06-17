@@ -13,8 +13,8 @@ import { uid } from "uid";
             res.json({message:"No Orders",result})
         }
         res.json(result.recordsets);
-     } catch (error) {
-          return res.json({message:"Internal Error",error})
+     }catch (error:any) {
+         return res.json({message:"Internal Error",error:error.message})
      }
 
  }
@@ -34,8 +34,8 @@ import { uid } from "uid";
             res.json({message:"No Orders",result})
         }
         res.json(result.recordsets);
-     } catch (error) {
-         return res.json({message:"Internal Error",error})
+     }catch (error:any) {
+         return res.json({message:"Internal Error",error:error.message})
      }
 
  }
@@ -54,8 +54,8 @@ import { uid } from "uid";
             res.json({message:"No Orders",result})
         }
         res.json(result.recordsets);      
-     } catch (error) {
-        return res.json({message:"Internal Error",error})  
+     } catch (error:any) {
+         return res.json({message:"Internal Error",error:error.message})
      }
 
  }
@@ -70,19 +70,18 @@ import { uid } from "uid";
             res.json({message:"No users",result})
         }
         res.json(result.recordsets);
-     } catch (error) {
-          return res.json({message:"Internal Error",error})
-         
+     } 
+     catch (error:any) {
+         return res.json({message:"Internal Error",error:error.message})
      }
 
  }
   export const filterOrders:RequestHandler=async (req:Request,res:Response)=>{
      try {
          
-     } catch (error) {
-          return res.json({message:"Internal Error",error})
+     } catch (error:any) {
+         return res.json({message:"Internal Error",error:error.message})
      }
-
  }
   export const searchOrders:RequestHandler=async (req:Request,res:Response)=>{
      try {
@@ -96,8 +95,8 @@ import { uid } from "uid";
         else{
             res.json({message:"Failed",result})
         }
-     } catch (error) {
-          return res.json({message:"Internal Error",error})
+     } catch (error:any) {
+         return res.json({message:"Internal Error",error:error.message})
      }
 
  }

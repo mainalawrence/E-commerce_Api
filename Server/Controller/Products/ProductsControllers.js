@@ -50,7 +50,7 @@ const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.json(result.recordsets);
     }
     catch (error) {
-        return res.json({ message: "Internal Error", error });
+        return res.json({ message: "Internal Error", error: error.message });
     }
 });
 exports.getProducts = getProducts;
@@ -106,7 +106,7 @@ const UpdateProducts = (req, res) => __awaiter(void 0, void 0, void 0, function*
         }
     }
     catch (error) {
-        return res.json({ message: "Internal Error", error });
+        return res.json({ message: "Internal Error", error: error.message });
     }
 });
 exports.UpdateProducts = UpdateProducts;
@@ -124,7 +124,7 @@ const deleteProducts = (req, res) => __awaiter(void 0, void 0, void 0, function*
         }
     }
     catch (error) {
-        return res.json({ message: "Internal Error", error });
+        return res.json({ message: "Internal Error", error: error.message });
     }
 });
 exports.deleteProducts = deleteProducts;
@@ -132,7 +132,7 @@ const filterProducts = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
     }
     catch (error) {
-        return res.json({ message: "Internal Error", error });
+        return res.json({ message: "Internal Error", error: error.message });
     }
 });
 exports.filterProducts = filterProducts;
@@ -150,7 +150,7 @@ const searchProducts = (req, res) => __awaiter(void 0, void 0, void 0, function*
         }
     }
     catch (error) {
-        return res.json({ message: "Internal Error", error });
+        return res.json({ message: "Internal Error", error: error.message });
     }
 });
 exports.searchProducts = searchProducts;
