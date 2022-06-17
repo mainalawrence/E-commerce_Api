@@ -47,9 +47,11 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.login = login;
-const LoginWithFacebook = () => {
+const LoginWithFacebook = (req, res) => {
+    res.json(req);
 };
 exports.LoginWithFacebook = LoginWithFacebook;
-const LoginWithGoogle = () => {
+const LoginWithGoogle = (req, res) => {
+    res.json(req);
 };
 exports.LoginWithGoogle = LoginWithGoogle;

@@ -17,8 +17,9 @@ passport_1.default.use(new FacebookStrategy({
 passport_1.default.use(new GoogleStrategy({
     clientID: `${process.env.GOOGLE_CLIENT_ID}`,
     clientSecret: `${process.env.GOOGLE_CLIENT_SECRET}`,
-    callbackURL: "/auth/google/callback"
+    callbackURL: "auth/google/callback"
 }, function (_, __, profile, cb) {
+    console.log(profile);
     cb(null, profile);
 }));
 exports.default = passport_1.default;

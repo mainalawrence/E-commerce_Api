@@ -34,11 +34,11 @@ import sqlConfig from "../Database/configaration"
     }
  }
 
- export const LoginWithFacebook=()=>{
-     
+ export const LoginWithFacebook:RequestHandler=(req:Request,res:Response)=>{
+     res.json(req)
 
  }
-export const LoginWithGoogle=()=>{
-
+export const LoginWithGoogle:RequestHandler=(req:Request,res:Response)=>{
+  res.json(req)
   }
 
