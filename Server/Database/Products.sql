@@ -1,11 +1,11 @@
 
 ----PRODUCTS SECTION BEGINS HERE
-
+-- DROP TABLE products
 CREATE TABLE Products
 (
     id VARCHAR(100) PRIMARY KEY,
     name VARCHAR(50) UNIQUE,
-    price money NOT NULL,
+    price money NOT NULL ,
     brand VARCHAR(100),
     images nvarchar(max),
     category VARCHAR(20),
@@ -58,9 +58,9 @@ CREATE or ALTER PROC updateProduct
     (
     @id VARCHAR(100),
     @name VARCHAR(100),
-    @price INT,
+    @price money,
     @brand VARCHAR(100),
-    @image nvarchar(max),
+    @images nvarchar(max),
     @category VARCHAR(100),
     @description VARCHAR(300),
     @features nvarchar(max),
@@ -68,7 +68,7 @@ CREATE or ALTER PROC updateProduct
 )
 AS
 BEGIN
-    UPDATE Products SET name=@name, price=@price, brand=@brand,image=@image, category=@category, description=@description, features=@features, specification=@specification WHERE id=@id
+    UPDATE Products SET name=@name, price=@price, brand=@brand,images=@images, category=@category, description=@description, features=@features, specification=@specification WHERE id=@id
 end
  go
 

@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -15,7 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.searchProducts = exports.filterProducts = exports.deleteProducts = exports.UpdateProducts = exports.setProducts = exports.getProducts = void 0;
 const configaration_1 = __importDefault(require("../../Database/configaration"));
 const uid_1 = require("uid");
-const mssql_1 = __importDefault(require("mssql"));
+const mssql_1 = __importStar(require("mssql"));
 const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const pool = yield mssql_1.default.connect(configaration_1.default);
@@ -32,19 +55,19 @@ const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.getProducts = getProducts;
 const setProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, price, brand, image, category, description, features, specification } = req.body;
+    const { name, price, brand, images, category, description, features, specification } = JSON.parse(req.body.data);
     try {
         const pool = yield mssql_1.default.connect(configaration_1.default);
         const result = yield pool.request()
-            .input('id', mssql_1.default.VarChar, (0, uid_1.uid)(32))
-            .input('name', mssql_1.default.VarChar, name)
-            .input('price', mssql_1.default.BigInt, price)
-            .input('brand', mssql_1.default.VarChar, brand)
-            .input('image', mssql_1.default.NVarChar, image)
-            .input('category', mssql_1.default.VarChar, category)
-            .input('description', mssql_1.default.VarChar, description)
-            .input('features', mssql_1.default.NVarChar, features)
-            .input('specification', mssql_1.default.NVarChar, specification)
+            .input('id', mssql_1.default.VarChar(100), (0, uid_1.uid)(32))
+            .input('name', mssql_1.default.VarChar(100), name)
+            .input('price', mssql_1.default.Float, price)
+            .input('brand', mssql_1.default.VarChar(100), brand)
+            .input('images', mssql_1.default.NVarChar(mssql_1.MAX), images)
+            .input('category', mssql_1.default.VarChar(100), category)
+            .input('description', mssql_1.default.VarChar(100), description)
+            .input('features', mssql_1.default.NVarChar(mssql_1.MAX), features)
+            .input('specification', mssql_1.default.NVarChar(mssql_1.MAX), specification)
             .execute('createProduct');
         if (result.rowsAffected[0] > 0) {
             res.json({ message: "product created successfully", result });
@@ -56,24 +79,24 @@ const setProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         //  res.json(files[0].filename;
     }
     catch (error) {
-        return res.json({ message: "Internal Error", error });
+        return res.json({ message: "Internal Error", error: error.message });
     }
 });
 exports.setProducts = setProducts;
 const UpdateProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, price, brand, image, category, description, features, specification } = req.body;
+    const { name, price, brand, images, category, description, features, specification } = JSON.parse(req.body.data);
     try {
         const pool = yield mssql_1.default.connect(configaration_1.default);
         const result = yield pool.request()
             .input('id', mssql_1.default.VarChar, req.params.id)
-            .input('name', mssql_1.default.VarChar, name)
-            .input('price', mssql_1.default.BigInt, price)
-            .input('brand', mssql_1.default.VarChar, brand)
-            .input('image', mssql_1.default.NVarChar, image)
-            .input('category', mssql_1.default.VarChar, category)
-            .input('description', mssql_1.default.VarChar, description)
-            .input('features', mssql_1.default.NVarChar, features)
-            .input('specification', mssql_1.default.NVarChar, specification)
+            .input('name', mssql_1.default.VarChar(100), name)
+            .input('price', mssql_1.default.Float, price)
+            .input('brand', mssql_1.default.VarChar(100), brand)
+            .input('images', mssql_1.default.NVarChar(mssql_1.MAX), images)
+            .input('category', mssql_1.default.VarChar(100), category)
+            .input('description', mssql_1.default.VarChar(100), description)
+            .input('features', mssql_1.default.NVarChar(mssql_1.MAX), features)
+            .input('specification', mssql_1.default.NVarChar(mssql_1.MAX), specification)
             .execute('updateProduct');
         if (result.rowsAffected[0] > 0) {
             res.json({ message: "Product created successfully", result });

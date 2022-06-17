@@ -6,7 +6,7 @@ const router=Express.Router();
 
 router.get('/products',getProducts);
 
-router.put('/products',verifyToken(),upload.array('Product',4),UpdateProducts);
+router.put('/products/:id',verifyToken(),upload.array('Product',4),UpdateProducts);
 
 router.post('/products',verifyToken(),upload.array('Product',4),setProducts);
 

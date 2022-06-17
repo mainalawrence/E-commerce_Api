@@ -3,7 +3,7 @@ import { imagetoUrl } from "../../Utility/FileImagetoUrl"
 
 import sqlConfig from "../../Database/configaration"
 import { uid } from 'uid';
-import sql from 'mssql'
+import sql, { MAX } from 'mssql'
 
 
  export const getProducts:RequestHandler=async (req:Request,res:Response)=>{
@@ -36,21 +36,21 @@ import sql from 'mssql'
 
   export const setProducts=async (req:Request, res:Response)=>{
 
-    const {name,price,brand,image ,category ,description,features,specification } =req.body;
+    const {name,price,brand,images ,category ,description,features,specification } =JSON.parse(req.body.data);    
      try {
        const pool =await sql.connect(sqlConfig);
        const result=await pool.request()
-        .input('id' ,sql.VarChar,uid(32))
-        .input('name' ,sql.VarChar,name)
-        .input('price' ,sql.BigInt,price)
-        .input('brand' ,sql.VarChar,brand)
-        .input('image' ,sql.NVarChar,image)
-        .input('category' ,sql.VarChar,category)
-        .input('description', sql.VarChar,description)
-        .input('features', sql.NVarChar,features)
-        .input('specification' ,sql.NVarChar,specification)
-        .execute('createProduct');
 
+        .input('id' ,sql.VarChar(100),uid(32))
+        .input('name' ,sql.VarChar(100),name)
+        .input('price' ,sql.Float,price)
+        .input('brand' ,sql.VarChar(100),brand)
+        .input('images' ,sql.NVarChar(MAX),images)
+        .input('category' ,sql.VarChar(100),category)
+        .input('description', sql.VarChar(100),description)
+        .input('features', sql.NVarChar(MAX),features)
+        .input('specification' ,sql.NVarChar(MAX),specification)
+        .execute('createProduct');
 
         if(result.rowsAffected[0]>0){
             res.json({message:"product created successfully",result})
@@ -62,26 +62,26 @@ import sql from 'mssql'
         const files= req.files as {[filename: string]: Express.Multer.File[]}
       //  res.json(files[0].filename;
          
-     } catch (error ){
-         return res.json({message:"Internal Error",error})
+     } catch (error:any){
+         return res.json({message:"Internal Error",error:error.message})
      }
 
  }
   export const UpdateProducts:RequestHandler=async (req:Request,res:Response)=>{
-    const {name,price,brand,image ,category ,description,features,specification } =req.body;
+    const {name,price,brand,images ,category ,description,features,specification } =JSON.parse(req.body.data);   
 
      try {
         const pool =await sql.connect(sqlConfig);
        const result=await pool.request()
         .input('id' ,sql.VarChar,req.params.id)
-        .input('name' ,sql.VarChar,name)
-        .input('price' ,sql.BigInt,price)
-        .input('brand' ,sql.VarChar,brand)
-        .input('image' ,sql.NVarChar,image)
-        .input('category' ,sql.VarChar,category)
-        .input('description', sql.VarChar,description)
-        .input('features', sql.NVarChar,features)
-        .input('specification' ,sql.NVarChar,specification)
+        .input('name' ,sql.VarChar(100),name)
+        .input('price' ,sql.Float,price)
+        .input('brand' ,sql.VarChar(100),brand)
+        .input('images' ,sql.NVarChar(MAX),images)
+        .input('category' ,sql.VarChar(100),category)
+        .input('description', sql.VarChar(100),description)
+        .input('features', sql.NVarChar(MAX),features)
+        .input('specification' ,sql.NVarChar(MAX),specification)
         .execute('updateProduct');
 
 
