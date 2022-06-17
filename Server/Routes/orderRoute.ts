@@ -6,7 +6,7 @@ const router=Express.Router();
 
 router.get('/Orders',verifyToken(),getOrders);
 
-router.put('/Orders',verifyToken(),UpdateOrders);
+router.put('/Orders/:id',verifyToken(),UpdateOrders);
 
 router.post('/Orders',verifyToken(),setOrders);
 
