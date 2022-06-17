@@ -8,35 +8,84 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RemoveUser = exports.updateUser = exports.setUser = exports.getUsers = void 0;
+const mssql_1 = __importDefault(require("mssql"));
+const configaration_1 = __importDefault(require("../../Database/configaration"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const uid_1 = require("uid");
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const pool = yield mssql_1.default.connect(configaration_1.default);
+        const result = yield pool.request()
+            .execute('getUsers');
+        return res.json(result.recordsets);
     }
     catch (error) {
+        return res.json({ message: "Internal Error", error });
     }
 });
 exports.getUsers = getUsers;
 const setUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id, firstName, lastName, email, password } = req.body;
+    let image = '';
     try {
+        let encpassword = yield bcrypt_1.default.hash(password, 10);
+        const pool = yield mssql_1.default.connect(configaration_1.default);
+        const result = yield pool.request()
+            .input('id', mssql_1.default.VarChar, (0, uid_1.uid)(32))
+            .input('firstName', mssql_1.default.VarChar, firstName)
+            .input("lastName", mssql_1.default.VarChar, lastName)
+            .input('email', mssql_1.default.VarChar, email)
+            .input('password', mssql_1.default.VarChar, encpassword)
+            .input('image', mssql_1.default.VarChar, image)
+            .execute('createUser');
+        res.json(result);
     }
     catch (error) {
+        return res.json({ message: "Internal Error", error });
     }
 });
 exports.setUser = setUser;
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id, firstName, lastName, email, password } = req.body;
+    let image = '';
     try {
+        let encpassword = yield bcrypt_1.default.hash(password, 10);
+        const pool = yield mssql_1.default.connect(configaration_1.default);
+        const result = yield pool.request()
+            .input('id', mssql_1.default.VarChar, req.params.id)
+            .input('firstName', mssql_1.default.VarChar, firstName)
+            .input("lastName", mssql_1.default.VarChar, lastName)
+            .input('email', mssql_1.default.VarChar, email)
+            .input('password', mssql_1.default.VarChar, encpassword)
+            .input('image', mssql_1.default.VarChar, image)
+            .execute('updateUser');
+        return res.json(result);
     }
     catch (error) {
+        return res.json({ message: "Internal Error", error });
     }
 });
 exports.updateUser = updateUser;
-const RemoveUser = () => __awaiter(void 0, void 0, void 0, function* () {
-    return (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
+const RemoveUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const pool = yield mssql_1.default.connect(configaration_1.default);
+        const result = yield pool.request()
+            .input('id', mssql_1.default.VarChar, req.params.id)
+            .execute('deleteUser');
+        if (result.rowsAffected[0] > 0) {
+            res.json({ message: 'User Deleted Successfully', result });
         }
-        catch (error) {
+        else {
+            res.json({ message: 'Invalid User' });
         }
-    });
+    }
+    catch (error) {
+        return res.json({ message: "Internal Error", error });
+    }
 });
 exports.RemoveUser = RemoveUser;

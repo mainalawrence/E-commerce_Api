@@ -51,6 +51,7 @@ SELECT *
 FROM USERS;
 
 
+
 --UPDATE USER STORED PROC
 go
 CREATE or alter PROC updateUser(@id VARCHAR(100),

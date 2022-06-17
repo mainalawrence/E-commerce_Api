@@ -2,19 +2,24 @@
 import { imagetoUrl } from "../../Utility/FileImagetoUrl"
 import fs from 'fs'
 import { string } from "joi"
+import sqlConfig from "../../Database/configaration"
+import { uid } from 'uid';
+import sql from 'mssql'
+
 
  export const getProducts:RequestHandler=async (req:Request,res:Response)=>{
      try {
-         return res.send(imagetoUrl(fs.realpathSync('Images/Product/images-1655304346990-767892495')))
+         const pool =await sql.connect(sqlConfig);
+        const result=await pool.request()
+        .execute('getProducts');
+        return res.json(result.recordsets);
      } catch (error) {
-          return res.json({message:"Internal Error",error})
+           return res.json({message:"Internal Error",error})
      }
 
  }
 
- interface File_{
-
- 
+ interface File_{ 
  // fieldname:string
 	// originalname:string
 	// encoding: string
@@ -30,7 +35,7 @@ import { string } from "joi"
         // const myfoles=req.files[0];
 
         const files= req.files as {[filename: string]: Express.Multer.File[]}
-        res.json(files[0].filename);
+      //  res.json(files[0].filename);
          
      } catch (error) {
          return res.json({message:"Internal Error",error})
