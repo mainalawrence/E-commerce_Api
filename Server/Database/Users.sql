@@ -5,8 +5,10 @@ CREATE TABLE USERS
     lastName VARCHAR(50),
     email VARCHAR(100) UNIQUE,
     password VARCHAR(100),
-    image VARCHAR(100)
+    image VARCHAR(100),
+    deleted DATETIME
 )
+-- DROP TABLE users
 --INSERT USER STORED PROCEDURE
 go
 CREATE OR ALTER PROC createUser(
@@ -20,11 +22,10 @@ CREATE OR ALTER PROC createUser(
 AS
 BEGIN
     INSERT INTO USERS
-    VALUES(@id, @firstName, @lastName, @email, @password, @image)
---VALUES('qweefwer123623747', 'Gerald Kipngeno', 'geraldkipngenohkoech@gmail.com', 'Geraldscgkk!@#')
+    VALUES(@id, @firstName, @lastName, @email, @password, @image,null)
 END
 
-
+SELECT * FRom USERS
 --GET USER STORED PROCEDURE
 go
 Create or ALTER PROCEDURE getUser(@id VARCHAR(100))
@@ -32,16 +33,17 @@ AS
 BEGIN
     SELECT *
     from USERS
-    WHERE id=@id
+    WHERE id=@id AND deleted
+=null
 END
 go
 
 --GET USERS STORED PROCEDURE
-CREATE PROC getUsers
+CREATE or ALTER PROCEDURE  getUsers
 AS
 BEGIN
     SELECT *
-    from USERS
+    from USERS WHERE deleted=null
 END
 go
 
@@ -64,6 +66,14 @@ CREATE or alter PROC updateUser(@id VARCHAR(100),
 AS
 BEGIN
     UPDATE USERS SET firstName = @firstName, lastName=@lastName, email = @email, password = @password, image=@image WHERE id=@id
+END
+go
+
+go
+CREATE or alter PROCEDURE softDelete(@id VARCHAR(100))
+AS
+BEGIN
+    UPDATE USERS SET deleted = CURRENT_TIMESTAMP WHERE id=@id
 END
 go
 

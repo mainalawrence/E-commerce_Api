@@ -12,7 +12,9 @@ CREATE TABLE Products
     description VARCHAR(300),
     features nvarchar(max),
     specification nvarchar(max),
+    deleted DATETIME
 ) 
+
 
 --INSERT PRODUCT STORED PROCEDURE
 go
@@ -29,8 +31,7 @@ CREATE OR ALTER PROC createProduct(
 AS
 BEGIN
     INSERT INTO Products
-    VALUES(@id, @name, @price, @brand, @images, @category, @description, @features, @specification)
---VALUES('qwerrty12334', 'JavaScript', 'It is a Javascript book', 234)
+    VALUES(@id, @name, @price, @brand, @images, @category, @description, @features, @specification,null)
 END
 go
 
@@ -40,7 +41,7 @@ AS
 BEGIN
     SELECT *
     from Products
-    WHERE id=@id
+    WHERE id=@id AND deleted=null
 END
 go
 
@@ -49,7 +50,9 @@ CREATE or alter PROC getProducts
 AS
 BEGIN
     SELECT *
-    FROM Products
+    FROM Products WHERE 
+deleted
+=null
 END
 
 go
@@ -81,6 +84,16 @@ END
 go
 
 
+ go
+
+--DELETE PRODUCT STORED PROCEDURE
+CREATE or alter PROC SoftdeleteProduct(@id VARCHAR(100))
+AS
+BEGIN
+    
+UPDATE Products SET deleted=CURRENT_TIMESTAMP  WHERE id=@id
+END
+go
 go
 
 --GET ALL PRODUCTS STORED PROCEDURE
@@ -88,7 +101,9 @@ CREATE or alter PROC filterProducts
 AS
 BEGIN
     SELECT *
-    FROM Products
+    FROM Products 
+WHERE deleted
+=null
 END
 
 go
@@ -99,7 +114,7 @@ CREATE or alter PROC SearchProducts(@name VARCHAR(100))
 AS
 BEGIN
     SELECT *
-    FROM Products WHERE name LIKE '@name%'
+    FROM Products WHERE name LIKE '@name%' AND deleted=null
 END
 
 go
