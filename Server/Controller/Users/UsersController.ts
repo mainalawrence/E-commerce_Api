@@ -75,4 +75,22 @@ export const RemoveUser:RequestHandler =async (req:Request,res:Response)=>{
 
  }
 
+ export const softDeleteUser:RequestHandler =async (req:Request,res:Response)=>{
+     try {
+        const pool =await sql.connect(sqlConfig);
+        const result=await pool.request()
+        .input('id',sql.VarChar,req.params.id)
+        .execute('softDelete')
+           if(result.rowsAffected[0]>0){
+            res.json({message:'User Deleted Successfully',result});
+        }
+        else{
+            res.json({message:'Invalid User'})
+        }
+     } catch (error:any) {
+         return res.json({message:"Internal Error",error:error.message})
+     }
+
+ }
+
 

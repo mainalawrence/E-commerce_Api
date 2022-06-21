@@ -113,6 +113,24 @@ import sql, { MAX } from 'mssql'
      }
 
  }
+
+   export const softDeleteProducts:RequestHandler=async (req:Request,res:Response)=>{
+     try {
+        const pool =await sql.connect(sqlConfig);
+        const result=await pool.request()
+        .input('id' ,sql.VarChar,req.params.id)
+        .execute('SoftdeleteProduct');
+          if(result.rowsAffected[0]>0){
+            res.json({message:"Product was deleted successfully",result})
+        }
+        else{
+            res.json({message:"Failed",result})
+        }
+     } catch (error:any) {
+         return res.json({message:"Internal Error",error:error.message})
+     }
+
+ }
   export const filterProducts:RequestHandler=async (req:Request,res:Response)=>{
      try {
          
