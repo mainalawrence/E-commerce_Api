@@ -13,5 +13,6 @@ router.put('/products/:id', (0, Auth_1.default)(), ProductImageUpload_1.upload.a
 router.post('/products', (0, Auth_1.default)(), ProductImageUpload_1.upload.array('Product', 4), ProductsControllers_1.setProducts);
 router.post('/products', ProductsControllers_1.filterProducts);
 router.post('/products/:name', ProductsControllers_1.searchProducts);
-router.delete('/products', (0, Auth_1.default)(), ProductsControllers_1.deleteProducts);
+router.delete('/products/soft/:id', (0, Auth_1.default)(), ProductsControllers_1.softDeleteProducts);
+router.delete('/products/:id', (0, Auth_1.default)(), ProductsControllers_1.deleteProducts);
 exports.default = router;

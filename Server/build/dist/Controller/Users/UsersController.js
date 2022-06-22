@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RemoveUser = exports.updateUser = exports.setUser = exports.getUsers = void 0;
+exports.softDeleteUser = exports.RemoveUser = exports.updateUser = exports.setUser = exports.getUsers = void 0;
 const mssql_1 = __importDefault(require("mssql"));
 const configaration_1 = __importDefault(require("../../Database/configaration"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
@@ -51,7 +51,7 @@ const setUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.setUser = setUser;
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id, firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
     let image = '';
     try {
         let encpassword = yield bcrypt_1.default.hash(password, 10);
@@ -89,3 +89,21 @@ const RemoveUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.RemoveUser = RemoveUser;
+const softDeleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const pool = yield mssql_1.default.connect(configaration_1.default);
+        const result = yield pool.request()
+            .input('id', mssql_1.default.VarChar, req.params.id)
+            .execute('softDelete');
+        if (result.rowsAffected[0] > 0) {
+            res.json({ message: 'User Deleted Successfully', result });
+        }
+        else {
+            res.json({ message: 'Invalid User' });
+        }
+    }
+    catch (error) {
+        return res.json({ message: "Internal Error", error: error.message });
+    }
+});
+exports.softDeleteUser = softDeleteUser;

@@ -6,8 +6,10 @@ CREATE TABLE USERS
     email VARCHAR(100) UNIQUE,
     password VARCHAR(100),
     image VARCHAR(100),
+    role INT,
     deleted DATETIME
 )
+SELECT * from USERS;
 -- DROP TABLE users
 --INSERT USER STORED PROCEDURE
 go
@@ -22,7 +24,7 @@ CREATE OR ALTER PROC createUser(
 AS
 BEGIN
     INSERT INTO USERS
-    VALUES(@id, @firstName, @lastName, @email, @password, @image,null)
+    VALUES(@id, @firstName, @lastName, @email, @password, @image,0,null)
 END
 
 SELECT * FRom USERS
@@ -56,7 +58,8 @@ FROM USERS;
 
 --UPDATE USER STORED PROC
 go
-CREATE or alter PROC updateUser(@id VARCHAR(100),
+CREATE or alter PROC updateUser(
+    @id VARCHAR(100),
     @firstName VARCHAR(50),
     @lastName VARCHAR(50),
     @email VARCHAR(30),

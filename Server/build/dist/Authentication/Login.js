@@ -34,7 +34,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             if (data) {
                 const { id, firstName, lastName, email } = result.recordset[0];
                 const token = jsonwebtoken_1.default.sign({ id, firstName, lastName, email }, process.env.SECREATE, { expiresIn: '1d' });
-                res.json(token);
+                res.json({ role: result.recordset[0].role, token });
             }
             else {
                 res.json({ Message: "Invalid Username or Password" });

@@ -36,7 +36,7 @@ import { uid } from 'uid';
 
  }
  export const updateUser:RequestHandler =async (req:Request,res:Response)=>{
-           const{id,firstName,lastName,email,password}=req.body 
+           const{firstName,lastName,email,password}=req.body 
         let image:string='';   
     try {
         let encpassword= await bycrypt.hash(password,10);

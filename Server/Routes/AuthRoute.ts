@@ -15,7 +15,6 @@ router.get('/google', passport.authenticate('google', { scope: ['profile'] }));
 
 router.get('/facebook/',passport.authenticate('facebook'))
 
-
 router.get('/google/callback', Passport.authenticate('google', { failureRedirect: 'api/users', session: false }),LoginWithGoogle)
 
 router.get('/facebook/callback',Passport.authenticate('facebook'),LoginWithFacebook)

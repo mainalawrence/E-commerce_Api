@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.searchProducts = exports.filterProducts = exports.deleteProducts = exports.UpdateProducts = exports.setProducts = exports.getProducts = void 0;
+exports.searchProducts = exports.filterProducts = exports.softDeleteProducts = exports.deleteProducts = exports.UpdateProducts = exports.setProducts = exports.getProducts = void 0;
 const configaration_1 = __importDefault(require("../../Database/configaration"));
 const uid_1 = require("uid");
 const mssql_1 = __importStar(require("mssql"));
@@ -128,6 +128,24 @@ const deleteProducts = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.deleteProducts = deleteProducts;
+const softDeleteProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const pool = yield mssql_1.default.connect(configaration_1.default);
+        const result = yield pool.request()
+            .input('id', mssql_1.default.VarChar, req.params.id)
+            .execute('SoftdeleteProduct');
+        if (result.rowsAffected[0] > 0) {
+            res.json({ message: "Product was deleted successfully", result });
+        }
+        else {
+            res.json({ message: "Failed", result });
+        }
+    }
+    catch (error) {
+        return res.json({ message: "Internal Error", error: error.message });
+    }
+});
+exports.softDeleteProducts = softDeleteProducts;
 const filterProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
     }

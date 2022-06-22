@@ -6,7 +6,7 @@ const router=Express.Router();
 
 router.get('/users',verifyToken(),getUsers);
 
-router.post('/users',verifyToken(),setUser);
+router.post('/users',setUser);
 
 router.put('/users/:id',verifyToken(),updateUser);
 
