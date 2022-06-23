@@ -17,7 +17,9 @@ const mssql_1 = __importDefault(require("mssql"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const configaration_1 = __importDefault(require("../Database/configaration"));
 const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id, firstName, lastName, email, password } = req.body;
+    const { id, name, email, password } = req.body;
+    let firstName = name.splite(' ')[0];
+    let lastName = name.splite(' ')[1];
     let image = '';
     try {
         let encpassword = yield bcrypt_1.default.hash(password, 10);

@@ -8,10 +8,11 @@ import sqlConfig from "../Database/configaration"
  export const login:RequestHandler=async (req:Request,res:Response) => {
    try {
        
+       
         const {email,password}=req.body;
         const pool =await sql.connect(sqlConfig);
         const result=await pool.request()
-        .input('email',sql.VarChar,email)
+        .input('email',sql.VarChar(100),email)
         .execute('login')
 
         if(!result.recordset[0]){

@@ -27,7 +27,6 @@ BEGIN
     VALUES(@id, @firstName, @lastName, @email, @password, @image,0,null)
 END
 
-SELECT * FRom USERS
 --GET USER STORED PROCEDURE
 go
 Create or ALTER PROCEDURE getUser(@id VARCHAR(100))
@@ -40,19 +39,20 @@ BEGIN
 END
 go
 
+
 --GET USERS STORED PROCEDURE
 CREATE or ALTER PROCEDURE  getUsers
 AS
 BEGIN
     SELECT *
-    from USERS WHERE deleted=null
+    from USERS WHERE deleted is NULL
 END
 go
 
 EXEC getUsers;
 
 SELECT *
-FROM USERS;
+FROM USERS  ;
 
 
 
@@ -64,11 +64,12 @@ CREATE or alter PROC updateUser(
     @lastName VARCHAR(50),
     @email VARCHAR(30),
     @password VARCHAR(100),
-    @image VARCHAR(100)
+    @image VARCHAR(100),
+    @role Int
 )
 AS
 BEGIN
-    UPDATE USERS SET firstName = @firstName, lastName=@lastName, email = @email, password = @password, image=@image WHERE id=@id
+    UPDATE USERS SET firstName = @firstName, lastName=@lastName, email = @email, password = @password, image=@image, role=@role WHERE id=@id
 END
 go
 
@@ -80,6 +81,8 @@ BEGIN
 END
 go
 
+
+
 --DELETE USER STORED PROCEDURE
 CREATE or alter PROC deleteUser(@id VARCHAR(100))
 AS
@@ -87,6 +90,20 @@ BEGIN
     DELETE FROM USERS WHERE id=@id
 END
 go
+
+
+--get Trush users
+
+CREATE or alter PROC trushedUsers
+AS
+BEGIN
+    SELECT * FROM USERS WHERE deleted is NOT NULL
+END
+go
+
+exec trushedUsers
+
+SELECT * from USERS;
 
 
 

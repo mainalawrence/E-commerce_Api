@@ -5,18 +5,31 @@ import bycrypt from 'bcrypt'
 import { uid } from 'uid';
  
  export const getUsers:RequestHandler =async (req:Request,res:Response)=>{
+     
      try {
         const pool =await sql.connect(sqlConfig);
         const result=await pool.request()
         .execute('getUsers');
-        return res.json(result.recordsets);
+        return res.json(result.recordset);
+     } catch (error:any) {
+         return res.json({message:"Internal Error",error:error.message})
+     }
+
+ }
+  export const getTrushedUsers:RequestHandler =async (req:Request,res:Response)=>{
+     
+     try {
+        const pool =await sql.connect(sqlConfig);
+        const result=await pool.request()
+        .execute('trushedUsers');
+        return res.json(result.recordset);
      } catch (error:any) {
          return res.json({message:"Internal Error",error:error.message})
      }
 
  }
  export const setUser:RequestHandler =async (req:Request,res:Response)=>{
-        const{id,firstName,lastName,email,password}=req.body 
+        const{firstName,lastName,email,password}=req.body 
         let image:string='';   
     try {
         let encpassword= await bycrypt.hash(password,10);
@@ -36,7 +49,7 @@ import { uid } from 'uid';
 
  }
  export const updateUser:RequestHandler =async (req:Request,res:Response)=>{
-           const{firstName,lastName,email,password}=req.body 
+           const{firstName,lastName,email,password,role}=req.body 
         let image:string='';   
     try {
         let encpassword= await bycrypt.hash(password,10);
@@ -48,6 +61,7 @@ import { uid } from 'uid';
         .input('email', sql.VarChar,email)
         .input('password', sql.VarChar,encpassword)
         .input('image', sql.VarChar,image)
+        .input('role', sql.VarChar,role)
         .execute('updateUser');
 
         return res.json(result)

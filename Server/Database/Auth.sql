@@ -6,9 +6,9 @@ AS
 BEGIN
     SELECT id, email, firstName, lastName, password, role
     FROM USERS
-    WHERE email =@email
+    WHERE deleted is NULL and email=@email
 END
 go
 
-SELECT * from USERS
+
 

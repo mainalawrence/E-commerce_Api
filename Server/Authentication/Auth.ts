@@ -6,6 +6,7 @@
 
 const verifyToken =() => {
     return (req:Request,res:Response, next:NextFunction) => {
+      
       let token = req.headers.authorization;
       if(token===''){
        res.status(401).json("Error Fobiden");

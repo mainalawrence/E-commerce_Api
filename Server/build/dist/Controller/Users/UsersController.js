@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.softDeleteUser = exports.RemoveUser = exports.updateUser = exports.setUser = exports.getUsers = void 0;
+exports.softDeleteUser = exports.RemoveUser = exports.updateUser = exports.setUser = exports.getTrushedUsers = exports.getUsers = void 0;
 const mssql_1 = __importDefault(require("mssql"));
 const configaration_1 = __importDefault(require("../../Database/configaration"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
@@ -22,15 +22,27 @@ const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const pool = yield mssql_1.default.connect(configaration_1.default);
         const result = yield pool.request()
             .execute('getUsers');
-        return res.json(result.recordsets);
+        return res.json(result.recordset);
     }
     catch (error) {
         return res.json({ message: "Internal Error", error: error.message });
     }
 });
 exports.getUsers = getUsers;
+const getTrushedUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const pool = yield mssql_1.default.connect(configaration_1.default);
+        const result = yield pool.request()
+            .execute('trushedUsers');
+        return res.json(result.recordset);
+    }
+    catch (error) {
+        return res.json({ message: "Internal Error", error: error.message });
+    }
+});
+exports.getTrushedUsers = getTrushedUsers;
 const setUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id, firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
     let image = '';
     try {
         let encpassword = yield bcrypt_1.default.hash(password, 10);
@@ -51,7 +63,7 @@ const setUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.setUser = setUser;
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, email, password, role } = req.body;
     let image = '';
     try {
         let encpassword = yield bcrypt_1.default.hash(password, 10);
@@ -63,6 +75,7 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             .input('email', mssql_1.default.VarChar, email)
             .input('password', mssql_1.default.VarChar, encpassword)
             .input('image', mssql_1.default.VarChar, image)
+            .input('role', mssql_1.default.VarChar, role)
             .execute('updateUser');
         return res.json(result);
     }

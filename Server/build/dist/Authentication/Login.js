@@ -22,7 +22,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { email, password } = req.body;
         const pool = yield mssql_1.default.connect(configaration_1.default);
         const result = yield pool.request()
-            .input('email', mssql_1.default.VarChar, email)
+            .input('email', mssql_1.default.VarChar(100), email)
             .execute('login');
         if (!result.recordset[0]) {
             res.json({ message: "wrong username or password" });

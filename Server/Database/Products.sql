@@ -119,3 +119,14 @@ END
 
 go
 exec getProducts
+
+
+go
+CREATE or alter PROC trushedProducts
+AS
+BEGIN
+    SELECT *
+    FROM Products
+    WHERE deleted is NOT NULL
+END
+go

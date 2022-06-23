@@ -5,7 +5,9 @@ import bycrypt from 'bcrypt'
 
 import sqlConfig from "../Database/configaration"
 export const signUp:RequestHandler=async(req:Request,res:Response)=>{
-        const{id,firstName,lastName,email,password}=req.body 
+        const{id,name,email,password}=req.body 
+        let firstName=name.splite(' ')[0];
+        let lastName=name.splite(' ')[1];
         let image:string='';   
     try {
         let encpassword= await bycrypt.hash(password,10);
