@@ -8,7 +8,14 @@ CREATE TABLE Orders
     TotalCost money NOT NULL,
     orders nvarchar(max),
     status VARCHAR(20),
-    date DATETIME
+    paymentDetails nvarchar(max),
+    date DATETIME,
+    CONSTRAINT fk_customer FOREIGN KEY(userid)
+REFERENCES Users(id)
+        ON
+DELETE CASCADE
+        ON
+UPDATE CASCADE
 )
 
 -- DROP TABLE Orders
@@ -19,12 +26,15 @@ CREATE OR ALTER PROC createOrders(
     @id VARCHAR(100),
     @userid VARCHAR(100) ,
     @TotalCost money,
-    @orders nvarchar(max)
+    @orders nvarchar(max),
+    @status VARCHAR(100),
+    @paymentDetails nvarchar
+(max)
 )
 AS
 BEGIN
     INSERT INTO Orders
-    VALUES(@id, @userid, @TotalCost, @orders, CURRENT_TIMESTAMP)
+    VALUES(@id, @userid, @TotalCost, @orders,@status,@paymentDetails, CURRENT_TIMESTAMP)
 --VALUES('qwerrty12334', 'JavaScript', 'It is a Javascript book', 234)
 END
 go
@@ -57,13 +67,40 @@ CREATE or ALTER PROC updateOrder
 (100) ,
     @TotalCost money,
     @orders nvarchar
+(max),
+
+@status VARCHAR
+(100),
+    @paymentDetails nvarchar
 (max)
 )
 AS
 BEGIN
-    UPDATE Orders SET userid=@userid, TotalCost=@TotalCost, orders=@orders WHERE id=@id
+    UPDATE Orders SET userid=@userid, TotalCost=@TotalCost, orders=@orders, paymentDetails=@paymentDetails,status=@status WHERE id=@id
 end
  go
+
+GO
+CREATE or ALTER PROC updateOrderStatus
+    (
+    @id VARCHAR(100),
+    @status VARCHAR(100)
+    )
+AS
+BEGIN
+
+UPDATE Orders SET status=@status WHERE id=@id;
+END
+
+GO
+
+
+CREATE OR ALTER PROC getOrderCount
+AS
+BEGIN
+SELECT COUNT(id),SUM(TotalCost) FROM Orders;
+END
+go
 
 --DELETE PRODUCT STORED PROCEDURE
 CREATE or alter PROC deleteOrders(@id VARCHAR(100))

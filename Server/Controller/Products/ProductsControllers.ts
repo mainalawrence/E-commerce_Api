@@ -65,7 +65,6 @@ import sql, { MAX } from 'mssql'
         else{
             res.json({message:"Failed",result})
         }
-
         const files= req.files as {[filename: string]: Express.Multer.File[]}
         res.json(result);
          
