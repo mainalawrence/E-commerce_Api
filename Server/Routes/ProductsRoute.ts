@@ -19,4 +19,5 @@ router.delete('/products/soft/:id',verifyToken(),softDeleteProducts);
 router.delete('/products/:id',verifyToken(),deleteProducts);
 
 
+
 export default router;

@@ -4,12 +4,11 @@
 CREATE TABLE Orders
 (
     id VARCHAR(100) PRIMARY KEY ,
-    userid VARCHAR(100) ,
+    userid VARCHAR(100),
     TotalCost money NOT NULL,
     orders nvarchar(max),
     status VARCHAR(20),
     date DATETIME
-
 )
 
 -- DROP TABLE Orders

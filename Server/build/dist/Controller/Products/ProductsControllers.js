@@ -55,7 +55,13 @@ const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.getProducts = getProducts;
 const setProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, price, brand, images, category, description, features, specification } = JSON.parse(req.body.data);
+    var _a;
+    const { name, price, brand, category, description, features, specification } = JSON.parse(req.body.data);
+    let imagesNames;
+    (_a = req.files) === null || _a === void 0 ? void 0 : _a.map((file) => {
+        imagesNames.push(file.filename);
+    });
+    console.log(req.files);
     try {
         const pool = yield mssql_1.default.connect(configaration_1.default);
         const result = yield pool.request()
@@ -63,7 +69,7 @@ const setProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             .input('name', mssql_1.default.VarChar(100), name)
             .input('price', mssql_1.default.Float, price)
             .input('brand', mssql_1.default.VarChar(100), brand)
-            .input('images', mssql_1.default.NVarChar(mssql_1.MAX), images)
+            .input('images', mssql_1.default.NVarChar(mssql_1.MAX), 'images')
             .input('category', mssql_1.default.VarChar(100), category)
             .input('description', mssql_1.default.VarChar(100), description)
             .input('features', mssql_1.default.NVarChar(mssql_1.MAX), features)
@@ -76,7 +82,7 @@ const setProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             res.json({ message: "Failed", result });
         }
         const files = req.files;
-        //  res.json(files[0].filename;
+        res.json(result);
     }
     catch (error) {
         return res.json({ message: "Internal Error", error: error.message });

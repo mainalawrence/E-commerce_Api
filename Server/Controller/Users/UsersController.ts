@@ -26,7 +26,6 @@ import { uid } from 'uid';
      } catch (error:any) {
          return res.json({message:"Internal Error",error:error.message})
      }
-
  }
  export const setUser:RequestHandler =async (req:Request,res:Response)=>{
         const{firstName,lastName,email,password}=req.body 

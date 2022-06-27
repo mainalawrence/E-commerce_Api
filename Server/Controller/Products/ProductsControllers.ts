@@ -1,5 +1,4 @@
- import  {Request,RequestHandler,Response}  from "express"
-import { imagetoUrl } from "../../Utility/FileImagetoUrl"
+ import  {json, Request,RequestHandler,Response}  from "express"
 
 import sqlConfig from "../../Database/configaration"
 import { uid } from 'uid';
@@ -36,7 +35,14 @@ import sql, { MAX } from 'mssql'
 
   export const setProducts=async (req:Request, res:Response)=>{
 
-    const {name,price,brand,images ,category ,description,features,specification } =JSON.parse(req.body.data);    
+    const {name,price,brand,category ,description,features,specification } =JSON.parse(req.body.data)
+    let imagesNames:[];
+    req.files?.map((file:any)=>{
+        imagesNames.push(file.filename);
+    })
+    
+    console.log(req.files); 
+
      try {
        const pool =await sql.connect(sqlConfig);
        const result=await pool.request()
@@ -45,7 +51,7 @@ import sql, { MAX } from 'mssql'
         .input('name' ,sql.VarChar(100),name)
         .input('price' ,sql.Float,price)
         .input('brand' ,sql.VarChar(100),brand)
-        .input('images' ,sql.NVarChar(MAX),images)
+        .input('images' ,sql.NVarChar(MAX),'images')
         .input('category' ,sql.VarChar(100),category)
         .input('description', sql.VarChar(100),description)
         .input('features', sql.NVarChar(MAX),features)
@@ -60,7 +66,7 @@ import sql, { MAX } from 'mssql'
         }
 
         const files= req.files as {[filename: string]: Express.Multer.File[]}
-      //  res.json(files[0].filename;
+        res.json(result);
          
      } catch (error:any){
          return res.json({message:"Internal Error",error:error.message})
