@@ -4,7 +4,7 @@
 CREATE TABLE Products
 (
     id VARCHAR(100) PRIMARY KEY,
-    name VARCHAR(50) UNIQUE,
+    name VARCHAR(50),
     price money NOT NULL ,
     brand VARCHAR(100),
     images nvarchar(max),
@@ -15,7 +15,7 @@ CREATE TABLE Products
     deleted DATETIME
 ) 
 
-
+-- DROP TABLE Products
 --INSERT PRODUCT STORED PROCEDURE
 go
 CREATE OR ALTER PROC createProduct(
@@ -31,7 +31,7 @@ CREATE OR ALTER PROC createProduct(
 AS
 BEGIN
     INSERT INTO Products
-    VALUES(@id, @name, @price, @brand, @images, @category, @description, @features, @specification,null)
+    VALUES(@id, @name, @price, @brand, @images, @category, @description, @features, @specification, null)
 END
 go
 
@@ -50,11 +50,12 @@ CREATE or alter PROC getProducts
 AS
 BEGIN
     SELECT *
-    FROM Products WHERE 
-deleted
-=null
+    FROM Products
+    WHERE deleted is NULL
 END
 
+go
+EXECUTE getProducts
 go
 --UPDATE PRODUCT STORED PROCEDURE
 CREATE or ALTER PROC updateProduct
@@ -90,8 +91,8 @@ go
 CREATE or alter PROC SoftdeleteProduct(@id VARCHAR(100))
 AS
 BEGIN
-    
-UPDATE Products SET deleted=CURRENT_TIMESTAMP  WHERE id=@id
+
+    UPDATE Products SET deleted=CURRENT_TIMESTAMP  WHERE id=@id
 END
 go
 go
@@ -101,8 +102,8 @@ CREATE or alter PROC filterProducts
 AS
 BEGIN
     SELECT *
-    FROM Products 
-WHERE deleted
+    FROM Products
+    WHERE deleted
 =null
 END
 
@@ -114,7 +115,8 @@ CREATE or alter PROC SearchProducts(@name VARCHAR(100))
 AS
 BEGIN
     SELECT *
-    FROM Products WHERE name LIKE '@name%' AND deleted=null
+    FROM Products
+    WHERE name LIKE '@name%' AND deleted=null
 END
 
 go

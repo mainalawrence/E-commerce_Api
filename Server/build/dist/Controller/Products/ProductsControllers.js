@@ -54,26 +54,34 @@ const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getProducts = getProducts;
+//  interface File_  { 
+//  fieldname:string
+// 	originalname:string
+// 	encoding: string
+// 	mimetype: string
+// 	destination:string
+// 	filename:string
+// 	path:string
+// 	size:number
+//  }
 const setProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
-    const { name, price, brand, category, description, features, specification } = JSON.parse(req.body.data);
-    let imagesNames;
-    (_a = req.files) === null || _a === void 0 ? void 0 : _a.map((file) => {
-        imagesNames.push(file.filename);
-    });
-    console.log(req.files);
+    const { name, cost, brand, category, description, Features, Specifications } = JSON.parse(req.body.data);
+    let imagesNames = [];
     try {
+        for (let i = 0; i < 3; i++) {
+            imagesNames.push(req.files[i].filename);
+        }
         const pool = yield mssql_1.default.connect(configaration_1.default);
         const result = yield pool.request()
             .input('id', mssql_1.default.VarChar(100), (0, uid_1.uid)(32))
             .input('name', mssql_1.default.VarChar(100), name)
-            .input('price', mssql_1.default.Float, price)
+            .input('price', mssql_1.default.Float, cost)
             .input('brand', mssql_1.default.VarChar(100), brand)
-            .input('images', mssql_1.default.NVarChar(mssql_1.MAX), 'images')
+            .input('images', mssql_1.default.NVarChar(mssql_1.MAX), `${imagesNames}`)
             .input('category', mssql_1.default.VarChar(100), category)
             .input('description', mssql_1.default.VarChar(100), description)
-            .input('features', mssql_1.default.NVarChar(mssql_1.MAX), features)
-            .input('specification', mssql_1.default.NVarChar(mssql_1.MAX), specification)
+            .input('features', mssql_1.default.NVarChar(mssql_1.MAX), `${Features}`)
+            .input('specification', mssql_1.default.NVarChar(mssql_1.MAX), `${Specifications}`)
             .execute('createProduct');
         if (result.rowsAffected[0] > 0) {
             res.json({ message: "product created successfully", result });
@@ -90,19 +98,23 @@ const setProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.setProducts = setProducts;
 const UpdateProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, price, brand, images, category, description, features, specification } = JSON.parse(req.body.data);
+    const { name, cost, brand, images, category, description, Features, Specifications } = JSON.parse(req.body.data);
+    let imagesNames = [];
+    for (let i = 0; i < 3; i++) {
+        imagesNames.push(req.files[i].filename);
+    }
     try {
         const pool = yield mssql_1.default.connect(configaration_1.default);
         const result = yield pool.request()
             .input('id', mssql_1.default.VarChar, req.params.id)
             .input('name', mssql_1.default.VarChar(100), name)
-            .input('price', mssql_1.default.Float, price)
+            .input('price', mssql_1.default.Float, cost)
             .input('brand', mssql_1.default.VarChar(100), brand)
-            .input('images', mssql_1.default.NVarChar(mssql_1.MAX), images)
+            .input('images', mssql_1.default.NVarChar(mssql_1.MAX), `${imagesNames}`)
             .input('category', mssql_1.default.VarChar(100), category)
             .input('description', mssql_1.default.VarChar(100), description)
-            .input('features', mssql_1.default.NVarChar(mssql_1.MAX), features)
-            .input('specification', mssql_1.default.NVarChar(mssql_1.MAX), specification)
+            .input('features', mssql_1.default.NVarChar(mssql_1.MAX), `${Features}`)
+            .input('specification', mssql_1.default.NVarChar(mssql_1.MAX), `${Specifications}`)
             .execute('updateProduct');
         if (result.rowsAffected[0] > 0) {
             res.json({ message: "Product created successfully", result });

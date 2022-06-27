@@ -7,6 +7,8 @@ import sql, { MAX } from 'mssql'
 
  export const getProducts:RequestHandler=async (req:Request,res:Response)=>{
      try {
+        
+         
          const pool =await sql.connect(sqlConfig);
         const result=await pool.request()
         .execute('getProducts');
@@ -22,40 +24,39 @@ import sql, { MAX } from 'mssql'
 
  }
 
- interface File_{ 
- // fieldname:string
-	// originalname:string
-	// encoding: string
-	// mimetype: string
-	// destination:string
-	// filename:string
-	// path:string
-	// size:number
- }
+//  interface File_  { 
+//  fieldname:string
+// 	originalname:string
+// 	encoding: string
+// 	mimetype: string
+// 	destination:string
+// 	filename:string
+// 	path:string
+// 	size:number
+//  }
 
   export const setProducts=async (req:Request, res:Response)=>{
 
-    const {name,price,brand,category ,description,features,specification } =JSON.parse(req.body.data)
-    let imagesNames:[];
-    req.files?.map((file:any)=>{
-        imagesNames.push(file.filename);
-    })
-    
-    console.log(req.files); 
+    const {name,cost,brand,category ,description,Features,Specifications } =JSON.parse(req.body.data)
+    let imagesNames:[]=[];
 
+       
      try {
+    for(let i=0;i<3;i++){
+        imagesNames.push(req.files[i].filename)
+    }
        const pool =await sql.connect(sqlConfig);
        const result=await pool.request()
-
+        
         .input('id' ,sql.VarChar(100),uid(32))
         .input('name' ,sql.VarChar(100),name)
-        .input('price' ,sql.Float,price)
+        .input('price' ,sql.Float,cost)
         .input('brand' ,sql.VarChar(100),brand)
-        .input('images' ,sql.NVarChar(MAX),'images')
+        .input('images' ,sql.NVarChar(MAX),`${imagesNames}`)
         .input('category' ,sql.VarChar(100),category)
         .input('description', sql.VarChar(100),description)
-        .input('features', sql.NVarChar(MAX),features)
-        .input('specification' ,sql.NVarChar(MAX),specification)
+        .input('features', sql.NVarChar(MAX),`${Features}`)
+        .input('specification' ,sql.NVarChar(MAX),`${Specifications}`)
         .execute('createProduct');
 
         if(result.rowsAffected[0]>0){
@@ -74,20 +75,24 @@ import sql, { MAX } from 'mssql'
 
  }
   export const UpdateProducts:RequestHandler=async (req:Request,res:Response)=>{
-    const {name,price,brand,images ,category ,description,features,specification } =JSON.parse(req.body.data);   
+    const {name,cost,brand,images ,category ,description,Features,Specifications } =JSON.parse(req.body.data);   
+        let imagesNames:[]=[];
+    for(let i=0;i<3;i++){
+        imagesNames.push(req.files[i].filename)
+    }
 
      try {
         const pool =await sql.connect(sqlConfig);
        const result=await pool.request()
         .input('id' ,sql.VarChar,req.params.id)
         .input('name' ,sql.VarChar(100),name)
-        .input('price' ,sql.Float,price)
+        .input('price' ,sql.Float,cost)
         .input('brand' ,sql.VarChar(100),brand)
-        .input('images' ,sql.NVarChar(MAX),images)
+        .input('images' ,sql.NVarChar(MAX),`${imagesNames}`)
         .input('category' ,sql.VarChar(100),category)
         .input('description', sql.VarChar(100),description)
-        .input('features', sql.NVarChar(MAX),features)
-        .input('specification' ,sql.NVarChar(MAX),specification)
+        .input('features', sql.NVarChar(MAX),`${Features}`)
+        .input('specification' ,sql.NVarChar(MAX),`${Specifications}`)
         .execute('updateProduct');
 
 
